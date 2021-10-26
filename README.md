@@ -6,3 +6,6 @@ Parts:
   Esky Mini HD Camera
   Raspberry Pi 3B
   5 inch screen
+
+Using OPT3101 Arduino Library:
+https://github.com/pololu/opt3101-arduino#opt3101-library-for-arduino

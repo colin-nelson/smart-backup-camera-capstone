@@ -1,6 +1,5 @@
 from guizero import App, PushButton, TextBox, Text
 
-
 def count():
     character_count.value = len(text_box.value)
 

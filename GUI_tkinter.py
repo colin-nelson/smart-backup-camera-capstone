@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
+from GUI import return_offset
 import cv2
 
 
@@ -23,10 +24,12 @@ def video_stream():
     lmain.imgtk = imgtk
     lmain.configure(image=imgtk)
     lmain.after(1, video_stream)
-    overlay(frame) 
+    
+    overlay(frame)
 
 def get_distance():
-    distance = 10
+    distance = return_offset()
+    distance = int(distance) + 1
     return str(distance)
 
 def overlay(frame):
@@ -35,6 +38,8 @@ def overlay(frame):
     #InputOutputArray img, const String &text, Point org, int fontFace, double fontScale, Scalar color, int thickness=1, int lineType=LINE_8, bool bottomLeftOrigin=false)
     cv2.putText(frame, d, (50, 50), font, 1, (0, 255, 255), 2, cv2.LINE_4)
     cv2.imshow('video', frame)
+
+
 
 video_stream()
 root.mainloop()

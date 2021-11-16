@@ -1,31 +1,36 @@
-from guizero import App, PushButton, TextBox, Text
-
-def count():
-    character_count.value = len(text_box.value)
-
-def show():
-    text_box.show()
-
-def hide():
-    text_box.hide()
-
-def enable():
-    text_box.enable()
-
-def disable():
-    text_box.disable()
+from guizero import App, PushButton, TextBox, Text, Slider
 
 
+def change_offset(slider_value):
+    Offset.value = slider_value
+    
+def increase_offset():
+    Offset.value = int(Offset.value) + 1
+    
+
+def decrease_offset():
+    Offset.value = int(Offset.value) - 1
+#def change_display():
+#    Offeset.
+
+def return_offset():
+    return Offset.value
+    
+def close_window():
+    app.destroy()
+    
 #Name of the app
 app = App(title ="GUI")
+text = Text(app, text ="Current Offset", size = 40)
+Offset = Text(app, text="0", size = 30)
 
-text_box = TextBox(app, command=count)
-character_count = Text(app)
+pButton = PushButton(app, text = "+", command = increase_offset, align="right")
+mButton = PushButton(app, text = "-", command = decrease_offset, align="left")
 
-show_button = PushButton(app, text="show", command=show)
-hide_button = PushButton(app, text="hide", command=hide)
-enable_button = PushButton(app, text="enable", command=enable)
-disable_button = PushButton(app, text="disable",command=disable)
+
+exit = PushButton(app, text = "confirm", command = close_window)
+#offval = int(offset.value)
+
 
 
 

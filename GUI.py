@@ -14,7 +14,7 @@ def decrease_offset():
 #    Offeset.
 
 def return_offset():
-    return Offset.value
+    return int(Offset.value)
     
 def close_window():
     app.destroy()
@@ -26,6 +26,7 @@ Offset = Text(app, text="0", size = 30)
 
 pButton = PushButton(app, text = "+", command = increase_offset, align="right")
 mButton = PushButton(app, text = "-", command = decrease_offset, align="left")
+#bSlider = Slider(
 
 
 exit = PushButton(app, text = "confirm", command = close_window)

@@ -5,17 +5,48 @@ from CountsPerSec import CountsPerSec
 from VideoGet import VideoGet
 from VideoShow import VideoShow
 from threading import Thread
+from guizero import App, PushButton, TextBox, Text, Slider
+#from GUI import return_offset
+import time
 
 #from serial_test import return_distance
 import serial
 distance = "2"
+offset = "0"
+def change_offset(slider_value):
+    Offset.value = slider_value
+    
+def increase_offset():
+    global offset
+    Offset.value = int(Offset.value) + 1
+    offset = Offset.value
+
+def decrease_offset():
+    global offset
+    Offset.value = int(Offset.value) - 1
+    offset = Offset.value
+#def change_display():
+#    Offeset.
+
+def return_offset():
+    
+    return int(Offset.value)
+    
+def close_window():
+    app.destroy()
+    
 def getDistance():
     global distance
+    global offset
     while True:
+        time.sleep(0.1)
         ser = serial.Serial('/dev/ttyACM0', 345600)
         read_serial=ser.readline().decode('utf-8').rstrip()
-        distance = str(read_serial)
-        print(distance)
+        
+        distance = int(read_serial) - int(offset)
+        distance = str(distance)
+        #distance = str(read_serial)
+        #print(distance)
 def putIterationsPerSec(frame, iterations_per_sec):
     """
     Add iterations per second text to lower-left corner of a frame.
@@ -25,8 +56,8 @@ def putIterationsPerSec(frame, iterations_per_sec):
     #read_serial=ser.readline()
     #cv2.putText(frame, "{:.0f} iterations/sec".format(iterations_per_sec),
     #    (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255))
-    cv2.putText(frame, distance,
-        (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255))
+    cv2.putText(frame, distance + " mm",
+        (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0),2)
     return frame
 
 def noThreading(source=0):
@@ -111,7 +142,43 @@ def threadBoth(source=0):
         video_shower.frame = frame
         cps.increment()
 
+
+
+
+with open('readme.txt',"r+") as f:
+    
+        if os.stat("readme.txt").st_size == 0:
+            app = App(title ="GUI")
+            text = Text(app, text ="Current Offset", size = 40)
+            Offset = Text(app, text="0", size = 30)
+
+            pButton = PushButton(app, text = "+", command = increase_offset, align="right")
+            mButton = PushButton(app, text = "-", command = decrease_offset, align="left")
+            #bSlider = Slider(
+            
+            exit = PushButton(app, text = "confirm", command = close_window)
+            
+            
+            #offval = int(offset.value)
+
+            app.display() 
+             
+        else:
+            lines = f.readline()
+            offset = lines
+            print(offset)
+
+        f.write(offset)
+
+
+f.close()
+
 def main():
+    global offset
+    
+    
+   
+        
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", "-s", default=0,
         help="Path to video file or integer representing webcam index"
@@ -122,6 +189,10 @@ def main():
             + " (video read and video show in their own threads),"
             + " none (default--no multithreading)")
     args = vars(ap.parse_args())
+
+    
+
+
 
     # If source is a string consisting only of integers, check that it doesn't
     # refer to a file. If it doesn't, assume it's an integer camera ID and

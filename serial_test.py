@@ -1,11 +1,10 @@
 import serial
 
 def return_distance():
-    ser = serial.Serial('/dev/ttyACM0', 9600)
-    #s=[0]
-    #i = 0
-    #sums = 0
-    read_serial=ser.readline()#.decode('utf-8').rstrip()
+    while True:
+        ser = serial.Serial('/dev/ttyACM0', 345600)
+        read_serial=ser.readline().decode('utf-8').rstrip()
+        print(str(read_serial))
 
     #while i < 10:
     #    read_serial=ser.readline()#.decode('utf-8').rstrip()
@@ -16,6 +15,6 @@ def return_distance():
     #    sums +=  int(float(read_serial))
     #print(str(sums))
     #return sums / 10
-        #print(type(read_serial))
-    return int(read_serial)
+    #print(read_serial)
+    #return read_serial
 return_distance()
